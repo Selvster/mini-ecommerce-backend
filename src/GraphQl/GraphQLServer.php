@@ -44,8 +44,29 @@ class GraphQLServer
             $rootValue = []; 
 
             $result = GraphQLBase::executeQuery($schema, $query, $rootValue, null, $variableValues, $operationName);
-            $output = $result->toArray();
+            $output = $result->toArray(DebugFlag::INCLUDE_DEBUG_MESSAGE);
             
+             $output = $result->toArray(DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE); 
+
+            // --- CUSTOM ERROR PROCESSING ---
+            if (isset($output['errors']) && is_array($output['errors'])) {
+                $processedErrors = [];
+                foreach ($output['errors'] as $error) {
+                    $processedError = [
+                        'message' => $error['message']
+                    ];
+
+    
+                    if (isset($error['extensions']['debugMessage'])) {
+                      
+                        $processedError['message'] = $error['extensions']['debugMessage'];
+                    }
+
+
+                    $processedErrors[] = $processedError;
+                }
+                $output['errors'] = $processedErrors;
+            }
 
         } catch (Throwable $e) {
 
@@ -54,12 +75,6 @@ class GraphQLServer
                 'errors' => [
                     [
                         'message' => $e->getMessage(),
-                        'extensions' => [
-                            'category' => 'internal',
-                            'trace' => explode("\n", $e->getTraceAsString()),
-                            'file' => $e->getFile(),
-                            'line' => $e->getLine(),
-                        ],
                     ],
                 ],
             ];

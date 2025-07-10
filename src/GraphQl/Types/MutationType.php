@@ -115,7 +115,7 @@ class MutationType extends ObjectType
                             throw new \RuntimeException('Database error during order placement: ' . $e->getMessage(), 0, $e);
                         } catch (Throwable $e) {
                             $this->dbConnection->rollBack();
-                            throw new \RuntimeException('Failed to place order: ' . $e->getMessage(), 0, $e);
+                            throw new \RuntimeException($e->getMessage(), 0, $e);
                         }
                     }
                 ],
