@@ -13,7 +13,9 @@ use App\GraphQL\Types\OrderResultType;
 use App\GraphQL\Types\Input\SelectedAttributeInput;
 use App\GraphQL\Types\Input\OrderItemInput;
 use App\GraphQL\Types\OrderInputType;
-
+use App\GraphQL\Types\OrderType; 
+use App\GraphQL\Types\OrderItemType; 
+use App\GraphQL\Types\SelectedAttributeType; 
 class TypeRegistry
 {
     private static array $types = [];
@@ -72,6 +74,20 @@ class TypeRegistry
     public static function orderInput(): OrderInputType
     {
         return self::get(OrderInputType::class);
+    }
+
+     public static function order(): OrderType {
+        return self::get(OrderType::class);
+    }
+
+    public static function orderItem(): OrderItemType
+    {
+        return self::get(OrderItemType::class);
+    }
+
+    public static function selectedAttribute(): SelectedAttributeType 
+    {
+        return self::get(SelectedAttributeType::class);
     }
 
 

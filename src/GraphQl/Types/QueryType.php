@@ -9,16 +9,20 @@ use App\Repository\ProductRepository;
 use App\Model\Category;
 use App\Model\Product\Product;
 use App\GraphQL\TypeRegistry; 
+use App\Repository\OrderRepository;
+use App\Model\Order\Order;
 
 class QueryType extends ObjectType
 {
     private CategoryRepository $categoryRepository;
     private ProductRepository $productRepository;
+    private OrderRepository $orderRepository; 
 
     public function __construct()
     {
         $this->categoryRepository = new CategoryRepository();
         $this->productRepository = new ProductRepository();
+        $this->orderRepository = new OrderRepository();
 
         parent::__construct([
             'name' => 'Query',
@@ -53,6 +57,23 @@ class QueryType extends ObjectType
                     ],
                     'resolve' => function ($rootValue, array $args): ?Product {
                         return $this->productRepository->findById($args['id']);
+                    }
+                ],
+                  'orders' => [ // <-- NEW QUERY FIELD
+                    'type' => Type::nonNull(Type::listOf(Type::nonNull(TypeRegistry::order()))),
+                    'description' => 'Returns a list of all orders',
+                    'resolve' => function (): array {
+                        return $this->orderRepository->findAll();
+                    }
+                ],
+                'order' => [ // <-- NEW QUERY FIELD for single order
+                    'type' => TypeRegistry::order(),
+                    'description' => 'Returns a single order by its ID',
+                    'args' => [
+                        'id' => Type::nonNull(Type::int()),
+                    ],
+                    'resolve' => function ($rootValue, array $args): ?Order {
+                        return $this->orderRepository->findById($args['id']);
                     }
                 ],
             ],
