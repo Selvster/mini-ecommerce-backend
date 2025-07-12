@@ -1,9 +1,8 @@
 <?php
 
 ob_start(); // Start output buffering at the very beginning
-require_once __DIR__ . '/../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+
+require_once __DIR__ . '/../bootstrap.php';
 
 $frontendUrl = $_ENV['FRONTEND_URL'] ?? 'FRONTEND_URL_NOT_SET'; // Add a fallback string for debugging
 
@@ -24,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 // --- END CORS HEADERS ---
 
-require_once __DIR__ . '/../bootstrap.php';
 
 use App\GraphQL\GraphQLServer;
 
