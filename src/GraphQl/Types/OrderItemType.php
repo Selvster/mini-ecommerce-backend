@@ -44,6 +44,13 @@ class OrderItemType extends ObjectType
                         return $item->getSelectedAttributes();
                     }
                 ],
+                'product' => [ 
+                    'type' => TypeRegistry::product(), 
+                    'description' => 'The full product details for this order item',
+                    'resolve' => function (OrderItem $item) {
+                            return $item->getProduct();
+                    }
+                ],
             ],
         ]);
     }

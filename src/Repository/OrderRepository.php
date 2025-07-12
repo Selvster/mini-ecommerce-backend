@@ -7,16 +7,19 @@ use App\Model\Order\OrderItem;
 use App\Model\Currency;
 use Doctrine\DBAL\Exception;
 use Brick\Math\BigDecimal;
+use App\Repository\ProductRepository;
 
 class OrderRepository extends AbstractRepository
 {
     private CurrencyRepository $currencyRepository;
+    private ProductRepository $productRepository;
 
 
     public function __construct()
     {
         parent::__construct();
         $this->currencyRepository = new CurrencyRepository();
+        $this->productRepository = new ProductRepository();
     }
 
     /**
@@ -127,7 +130,8 @@ class OrderRepository extends AbstractRepository
             $item->setProductId($row['product_id']);
             $item->setQuantity($row['quantity']);
             $item->setSelectedAttributes(json_decode($row['selected_attributes'], true)); 
-
+            $product = $this->productRepository->findById($row['product_id']);
+            $item->setProduct($product);
             $orderItems[] = $item;
         }
         return $orderItems;

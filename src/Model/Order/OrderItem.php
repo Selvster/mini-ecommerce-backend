@@ -3,6 +3,7 @@
 namespace App\Model\Order;
 
 use App\Model\AbstractModel;
+use App\Model\Product\Product; 
 
 class OrderItem extends AbstractModel
 {
@@ -11,6 +12,7 @@ class OrderItem extends AbstractModel
     private int $quantity;
     private ?array $selectedAttributes = null; // Stored as JSON, will be decoded to array
 
+    private ?Product $product = null;
 
     public function getOrderId(): int
     {
@@ -59,6 +61,17 @@ class OrderItem extends AbstractModel
     public function setSelectedAttributes(?array $selectedAttributes): self
     {
         $this->selectedAttributes = $selectedAttributes;
+        return $this;
+    }
+    
+     public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
         return $this;
     }
 
