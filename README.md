@@ -5,4 +5,4 @@ It emphasizes **Object-Oriented Programming (OOP)** principles, including polymo
 
 The GraphQL schema provides queries for **Categories, Products, and Orders**, and mutations for **placing orders** (including selected product attributes).
 
-For detailed API documentation, refer to the [Postman API Docs](https://documenter.getpostman.com/view/33043197/2sB34fngz3). This backend is designed to integrate with a React SPA frontend, such as the one found at [Selvster/mini-ecommerce-frontend](https://www.google.com/search?q=https://github.com/Selvster/mini-ecommerce-frontend&authuser=5).
+For detailed API documentation, refer to the [Postman API Docs](https://documenter.getpostman.com/view/33043197/2sB34fngz3). This backend is designed to integrate with a React SPA frontend, such as the one found at [Selvster/mini-ecommerce-frontend](https://github.com/Selvster/mini-ecommerce-frontend).
